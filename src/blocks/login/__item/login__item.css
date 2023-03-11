@@ -1,0 +1,8 @@
+.login__item {
+  color: #fff;
+  border-bottom: 2px solid #cccccc;
+}
+
+.login__item::placeholder {
+  color: #cccccc;
+}

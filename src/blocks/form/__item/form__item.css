@@ -1,0 +1,42 @@
+.form__item {
+  border: 0;
+  width: 100%;
+  min-height: 27px;
+  box-sizing: border-box;
+  border-bottom: 1px solid rgba(0, 0, 0, .2);
+  background-color: transparent;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+.form__item:focus {
+  outline-color: #7178e4;
+}
+
+.form__item::placeholder {
+  font-family: inherit;
+  color: #C4C4C4;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+.form__item::-webkit-input-placeholder {
+  font-family: inherit;
+  color: #C4C4C4;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+.form__item::-moz-placeholder {
+  font-family: inherit;
+  color: #C4C4C4;
+  font-size: 14px;
+  line-height: 1.21;
+}
+
+.form__item::-ms-input-placeholder {
+  font-family: inherit;
+  color: #C4C4C4;
+  font-size: 14px;
+  line-height: 1.21;
+}

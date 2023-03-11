@@ -1,0 +1,5 @@
+@media screen and (max-width: 576px) {
+  .popup__avatar-title {
+    margin-bottom: 50px;
+  }
+}
