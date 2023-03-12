@@ -1,7 +1,8 @@
 import { useEffect, useState } from "react";
-import { Route, Routes } from "react-router-dom";
+import { Navigate, Route, Routes, useNavigate } from "react-router-dom";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
 import { api } from "../utils/Api";
+import * as auth from "../utils/auth.js";
 import AddPlacePopup from "./AddPlacePopup";
 import ConfirmationPopup from "./ConfirmationPopup";
 import EditAvatarPopup from "./EditAvatarPopup";
@@ -11,6 +12,7 @@ import Header from "./Header";
 import ImagePopup from "./ImagePopup";
 import Login from "./Login";
 import Main from "./Main";
+import ProtectedRouteElement from "./ProtectedRoute";
 import Register from "./Register";
 
 function App() {
@@ -22,6 +24,8 @@ function App() {
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
   const [removedCard, setRemovedCard] = useState({});
+  const [loggedIn, setLoggedIn] = useState(false);
+  const [isEmail, setIsEmail] = useState("");
 
   useEffect(() => {
     api
@@ -137,19 +141,61 @@ function App() {
     setSelectedCard({});
   }
 
+  function handleLogin() {
+    setLoggedIn(true);
+  }
+
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    handleTokenCheck();
+  }, []);
+
+  const handleTokenCheck = () => {
+    if (localStorage.getItem("token")) {
+      const token = localStorage.getItem("token");
+      if (token) {
+        auth.getContent(token).then((res) => {
+          if (res) {
+            console.log(res);
+            const userEmail = res.data.email;
+            console.log(userEmail);
+            setLoggedIn(true);
+            setIsEmail(userEmail);
+            navigate("/", { replace: true });
+          }
+        });
+      }
+    }
+  };
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="root">
-          <Header />
+          <Header loggedIn={loggedIn} isEmail={isEmail} />
 
           <Routes>
+            <Route
+              path="*"
+              element={
+                loggedIn ? (
+                  <Navigate to="/" replace />
+                ) : (
+                  <Navigate to="/sign-in" replace />
+                )
+              }
+            />
             <Route path="sign-up" element={<Register />} />
-            <Route path="sign-in" element={<Login />} />
+            <Route
+              path="sign-in"
+              element={<Login handleLogin={handleLogin} />}
+            />
             <Route
               path="/"
               element={
-                <Main
+                <ProtectedRouteElement
+                  element={Main}
                   onEditProfile={handleEditProfileClick}
                   onEditAvatar={handleEditAvatarClick}
                   onAddPlace={handleAddPlaceClick}
@@ -157,20 +203,12 @@ function App() {
                   onCardLike={handleCardLike}
                   onSubmitCardDelete={handleConfirmationClick}
                   cards={cards}
+                  loggedIn={loggedIn}
                 />
               }
             />
           </Routes>
 
-          {/* <Main
-              onEditProfile={handleEditProfileClick}
-              onEditAvatar={handleEditAvatarClick}
-              onAddPlace={handleAddPlaceClick}
-              onCardClick={handleCardClick}
-              onCardLike={handleCardLike}
-              onSubmitCardDelete={handleConfirmationClick}
-              cards={cards}
-            /> */}
           <Footer />
 
           <EditProfilePopup
