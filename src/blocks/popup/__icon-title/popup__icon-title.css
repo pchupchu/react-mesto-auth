@@ -1,0 +1,12 @@
+.popup__icon-title {
+  text-align: center;
+  margin: 32px auto 0;
+  max-width: 358px;
+}
+
+@media screen and (max-width: 576px) {
+  .popup__icon-title {
+    font-size: 20px;
+    margin-top: 40px;
+  }
+}

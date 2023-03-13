@@ -10,6 +10,7 @@ import EditProfilePopup from "./EditProfilePopup";
 import Footer from "./Footer";
 import Header from "./Header";
 import ImagePopup from "./ImagePopup";
+import InfoTooltip from "./InfoTooltip";
 import Login from "./Login";
 import Main from "./Main";
 import ProtectedRouteElement from "./ProtectedRoute";
@@ -20,6 +21,7 @@ function App() {
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = useState(false);
   const [isConfirmationPopupOpen, setIsConfirmationPopupOpen] = useState(false);
+  const [isInfoTooltipOpen, setIsInfoTooltipOpen] = useState(false);
   const [selectedCard, setSelectedCard] = useState({});
   const [currentUser, setCurrentUser] = useState({});
   const [cards, setCards] = useState([]);
@@ -133,11 +135,16 @@ function App() {
     setSelectedCard(selectedCard);
   }
 
+  function handleInfoTooltipClick() {
+    setIsInfoTooltipOpen(true);
+  }
+
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
     setIsConfirmationPopupOpen(false);
+    setIsInfoTooltipOpen(false);
     setSelectedCard({});
   }
 
@@ -186,7 +193,10 @@ function App() {
                 )
               }
             />
-            <Route path="sign-up" element={<Register />} />
+            <Route
+              path="sign-up"
+              element={<Register onSubmitRegister={handleInfoTooltipClick} />}
+            />
             <Route
               path="sign-in"
               element={<Login handleLogin={handleLogin} />}
@@ -210,6 +220,8 @@ function App() {
           </Routes>
 
           <Footer />
+
+          <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
 
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}

@@ -50,6 +50,9 @@
 @import "./blocks/form/__button-to-delete/form__button-to-delete.css";
 @import "./blocks/popup/__avatar-container/popup__avatar-container.css";
 @import "./blocks/popup/__avatar-title/popup__avatar-title.css";
+@import "./blocks/popup/__icon/popup__icon.css";
+@import "./blocks/popup/__icon-title/popup__icon-title.css";
+@import "./blocks/popup/__icon-container/popup__icon-container.css";
 @import "./blocks/content/content.css";
 @import "./blocks/login/login.css";
 @import "./blocks/login/__title/login__title.css";

@@ -1,0 +1,12 @@
+.popup__icon-container {
+  display: flex;
+  flex-direction: column;
+  padding: 60px 36px;
+  box-sizing: border-box;
+}
+
+@media screen and (max-width: 576px) {
+  .popup__icon-container {
+    padding: 50px 18px;
+  }
+}

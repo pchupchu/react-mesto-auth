@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../utils/auth.js";
 
-function Register() {
+function Register({ onSubmitRegister }) {
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
@@ -24,6 +24,7 @@ function Register() {
     auth.register(password, email).then((res) => {
       console.log(res);
       navigate("/sign-in", { replace: true });
+      onSubmitRegister();
     });
   };
 
