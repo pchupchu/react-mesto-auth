@@ -28,6 +28,7 @@ function App() {
   const [removedCard, setRemovedCard] = useState({});
   const [loggedIn, setLoggedIn] = useState(false);
   const [isEmail, setIsEmail] = useState("");
+  const [isSuccessReg, setIsSuccessReg] = useState(false);
 
   useEffect(() => {
     api
@@ -135,9 +136,9 @@ function App() {
     setSelectedCard(selectedCard);
   }
 
-  function handleInfoTooltipClick() {
-    setIsInfoTooltipOpen(true);
-  }
+  // function handleInfoTooltipClick() {
+  //   setIsInfoTooltipOpen(true);
+  // }
 
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
@@ -148,11 +149,19 @@ function App() {
     setSelectedCard({});
   }
 
+  const navigate = useNavigate();
+
   function handleLogin() {
     setLoggedIn(true);
   }
 
-  const navigate = useNavigate();
+  function handleSuccessReg(email, password) {
+    auth.register(password, email).then((res) => {
+      res.error ? setIsSuccessReg(false) : setIsSuccessReg(true);
+      setIsInfoTooltipOpen(true);
+      navigate("/sign-in", { replace: true });
+    });
+  }
 
   useEffect(() => {
     handleTokenCheck();
@@ -164,9 +173,7 @@ function App() {
       if (token) {
         auth.getContent(token).then((res) => {
           if (res) {
-            console.log(res);
             const userEmail = res.data.email;
-            console.log(userEmail);
             setLoggedIn(true);
             setIsEmail(userEmail);
             navigate("/", { replace: true });
@@ -195,7 +202,7 @@ function App() {
             />
             <Route
               path="sign-up"
-              element={<Register onSubmitRegister={handleInfoTooltipClick} />}
+              element={<Register handleSuccessReg={handleSuccessReg} />}
             />
             <Route
               path="sign-in"
@@ -221,7 +228,11 @@ function App() {
 
           <Footer />
 
-          <InfoTooltip isOpen={isInfoTooltipOpen} onClose={closeAllPopups} />
+          <InfoTooltip
+            isOpen={isInfoTooltipOpen}
+            onClose={closeAllPopups}
+            isSuccessReg={isSuccessReg}
+          />
 
           <EditProfilePopup
             isOpen={isEditProfilePopupOpen}

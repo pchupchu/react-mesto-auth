@@ -11,8 +11,8 @@ function Header({ loggedIn, isEmail }) {
     <header className="header">
       <div className="header__logo"></div>
       <div className="header__auth">
-        <p className="header__login">{isEmail}</p>
-        <Link className="header__link" to="/sign-up" onClick={signOut}>
+        <p className="header__login">{loggedIn ? isEmail : ""}</p>
+        <Link className="header__link" to="/sign-in" onClick={signOut}>
           {loggedIn ? "Выйти" : "Войти"}
         </Link>
       </div>

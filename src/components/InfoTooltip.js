@@ -1,4 +1,7 @@
-function InfoTooltip({ isOpen, onClose }) {
+import fail from "../images/failed.svg";
+import success from "../images/success.svg";
+
+function InfoTooltip({ isOpen, onClose, isSuccessReg }) {
   return (
     <div className={`popup ${isOpen ? "popup_opened" : ""}`}>
       <div className="popup__icon-container popup__container">
@@ -7,9 +10,15 @@ function InfoTooltip({ isOpen, onClose }) {
           type="button"
           onClick={onClose}
         ></button>
-        <div className="popup__icon"></div>
+        <img
+          className="popup__icon"
+          src={isSuccessReg ? success : fail}
+          alt={isSuccessReg ? "success" : "fail"}
+        />
         <h2 className="popup__title popup__icon-title">
-          Вы успешно зарегистрировались!
+          {isSuccessReg
+            ? "Вы успешно зарегистрировались!"
+            : `Что-то пошло не так! Попробуйте ещё раз.`}
         </h2>
       </div>
     </div>
