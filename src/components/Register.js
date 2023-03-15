@@ -7,8 +7,6 @@ function Register({ handleSuccessReg }) {
     password: "",
   });
 
-  //const navigate = useNavigate();
-
   const handleChange = (e) => {
     const { name, value } = e.target;
 
@@ -21,13 +19,6 @@ function Register({ handleSuccessReg }) {
     e.preventDefault();
     const { password, email } = formValue;
     handleSuccessReg(email, password);
-    // const { password, email } = formValue;
-    // auth.register(password, email).then((res) => {
-    //   console.log(res);
-    //   handleSuccessReg(true);
-    //   navigate("/sign-in", { replace: true });
-    //   onSubmitRegister();
-    // });
   };
 
   return (

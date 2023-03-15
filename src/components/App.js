@@ -136,10 +136,6 @@ function App() {
     setSelectedCard(selectedCard);
   }
 
-  // function handleInfoTooltipClick() {
-  //   setIsInfoTooltipOpen(true);
-  // }
-
   function closeAllPopups() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
