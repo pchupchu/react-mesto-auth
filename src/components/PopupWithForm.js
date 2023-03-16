@@ -1,36 +1,22 @@
-function PopupWithForm({
-  title,
-  name,
-  btnText,
-  container,
-  classTitle,
-  form,
-  isOpen,
-  onClose,
-  onSubmit,
-  children,
-}) {
+import Popup from "./Popup";
+
+function PopupWithForm({ isOpen, name, container, onClose, ...props }) {
   return (
-    <div className={`popup popup_type_${name} ${isOpen ? "popup_opened" : ""}`}>
-      <div className={`popup__container ${container}`}>
-        <button
-          className="popup__close-button"
-          type="button"
-          onClick={onClose}
-        ></button>
-        <h2 className={`popup__title popup__${classTitle}`}>{title}</h2>
-        <form
-          className={`form form_${form}`}
-          name={name}
-          onSubmit={onSubmit} /*noValidate*/
-        >
-          {children}
-          <button type="submit" className="form__button">
-            {btnText}
-          </button>
-        </form>
-      </div>
-    </div>
+    <Popup isOpen={isOpen} name={name} container={container} onClose={onClose}>
+      <h2 className={`popup__title popup__${props.classTitle}`}>
+        {props.title}
+      </h2>
+      <form
+        className={`form form_${props.form}`}
+        name={name}
+        onSubmit={props.onSubmit} /*noValidate*/
+      >
+        {props.children}
+        <button type="submit" className="form__button">
+          {props.btnText}
+        </button>
+      </form>
+    </Popup>
   );
 }
 

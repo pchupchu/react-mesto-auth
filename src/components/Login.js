@@ -1,14 +1,10 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
-import * as auth from "../utils/auth.js";
 
 function Login({ handleLogin }) {
   const [formValue, setFormValue] = useState({
     email: "",
     password: "",
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -23,17 +19,9 @@ function Login({ handleLogin }) {
     if (!formValue.email || !formValue.password) {
       return;
     }
-    auth
-      .authorize(formValue.email, formValue.password)
-      .then((data) => {
-        console.log(data);
-        if (data.token) {
-          setFormValue({ email: "", password: "" });
-          handleLogin();
-          navigate("/", { replace: true });
-        }
-      })
-      .catch((err) => console.log(err));
+
+    setFormValue({ email: "", password: "" });
+    handleLogin(formValue.email, formValue.password);
   };
 
   return (
@@ -66,11 +54,7 @@ function Login({ handleLogin }) {
           />
           <span className="form__item-error password-error"></span>
         </label>
-        <button
-          onSubmit={handleSubmit}
-          type="submit"
-          className="form__button login__button"
-        >
+        <button type="submit" className="form__button login__button">
           Войти
         </button>
       </form>

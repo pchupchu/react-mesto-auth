@@ -147,16 +147,34 @@ function App() {
 
   const navigate = useNavigate();
 
-  function handleLogin() {
-    setLoggedIn(true);
+  function handleLogin(email, password) {
+    auth
+      .authorize(email, password)
+      .then((data) => {
+        console.log(data);
+        if (data.token) {
+          setLoggedIn(true);
+          navigate("/", { replace: true });
+        }
+      })
+      .catch((err) => console.log(`Ошибка: ${err}`));
   }
 
   function handleSuccessReg(email, password) {
-    auth.register(password, email).then((res) => {
-      res.error ? setIsSuccessReg(false) : setIsSuccessReg(true);
-      setIsInfoTooltipOpen(true);
-      navigate("/sign-in", { replace: true });
-    });
+    auth
+      .register(password, email)
+      .then((res) => {
+        console.log(res);
+        if (res) {
+          setIsSuccessReg(true);
+          navigate("/sign-in", { replace: true });
+        }
+      })
+      .catch((err) => {
+        console.log(`Ошибка: ${err}`);
+        setIsSuccessReg(false);
+      })
+      .finally(setIsInfoTooltipOpen(true));
   }
 
   useEffect(() => {
@@ -167,14 +185,17 @@ function App() {
     if (localStorage.getItem("token")) {
       const token = localStorage.getItem("token");
       if (token) {
-        auth.getContent(token).then((res) => {
-          if (res) {
-            const userEmail = res.data.email;
-            setLoggedIn(true);
-            setIsEmail(userEmail);
-            navigate("/", { replace: true });
-          }
-        });
+        auth
+          .getContent(token)
+          .then((res) => {
+            if (res) {
+              const userEmail = res.data.email;
+              setLoggedIn(true);
+              setIsEmail(userEmail);
+              navigate("/", { replace: true });
+            }
+          })
+          .catch((err) => console.log(`Ошибка: ${err}`));
       }
     }
   };

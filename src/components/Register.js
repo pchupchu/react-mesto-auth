@@ -15,6 +15,7 @@ function Register({ handleSuccessReg }) {
       [name]: value,
     });
   };
+
   const handleSubmit = (e) => {
     e.preventDefault();
     const { password, email } = formValue;
@@ -51,11 +52,7 @@ function Register({ handleSuccessReg }) {
           />
           <span className="form__item-error password-error"></span>
         </label>
-        <button
-          type="submit"
-          className="form__button login__button"
-          onSubmit={handleSubmit}
-        >
+        <button type="submit" className="form__button login__button">
           Зарегистрироваться
         </button>
       </form>
