@@ -33,8 +33,7 @@ export const authorize = (email, password) => {
         localStorage.setItem("token", data.token);
         return data;
       }
-    })
-    .catch((err) => console.log(`Ошибка: ${err}`));
+    });
 };
 
 export const getContent = (token) => {
@@ -47,6 +46,5 @@ export const getContent = (token) => {
     },
   })
     .then((res) => checkRes(res))
-    .then((data) => data)
-    .catch((err) => console.log(`Ошибка: ${err}`));
+    .then((data) => data);
 };
