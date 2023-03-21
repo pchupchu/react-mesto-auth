@@ -3,3 +3,9 @@
   text-decoration: none;
   cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+  .header__link {
+    font-size: 14px;
+  }
+}

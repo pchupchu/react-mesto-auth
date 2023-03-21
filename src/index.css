@@ -60,3 +60,9 @@
 @import "./blocks/login/__item/login__item.css";
 @import "./blocks/login/__button/login__button.css";
 @import "./blocks/login/__link/login__link.css";
+@import "./blocks/header/__burger/header__burger.css";
+@import "./blocks/header/__burger-line/header__burger-line.css";
+@import "./blocks/header/__burger-line/_active/header__burger-line_active.css";
+@import "./blocks/header/__auth-navbar/_hidden/header__auth-navbar_hidden.css";
+@import "./blocks/header/__auth-navbar/header__auth-navbar.css";
+@import "./blocks/header/__burger/_hidden/header__burger_hidden.css";

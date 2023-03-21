@@ -13,6 +13,7 @@ import ImagePopup from "./ImagePopup";
 import InfoTooltip from "./InfoTooltip";
 import Login from "./Login";
 import Main from "./Main";
+import Navbar from "./Navbar";
 import ProtectedRouteElement from "./ProtectedRoute";
 import Register from "./Register";
 
@@ -200,11 +201,40 @@ function App() {
     }
   };
 
+  function signOut() {
+    localStorage.removeItem("token");
+    navigate("/sign-in", { replace: true });
+    setIsNavbarOpen(false);
+    setIsBurger(false);
+  }
+
+  const [isBurger, setIsBurger] = useState(false);
+
+  function handleBurgerMenu() {
+    setIsBurger(!isBurger);
+    setIsNavbarOpen(!isNavbarOpen);
+  }
+
+  const [isNavbarOpen, setIsNavbarOpen] = useState(false);
+
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="App">
         <div className="root">
-          <Header loggedIn={loggedIn} isEmail={isEmail} />
+          <Navbar
+            isEmail={isEmail}
+            isNavbarOpen={isNavbarOpen}
+            setIsNavbarOpen={setIsNavbarOpen}
+            signOut={signOut}
+          />
+
+          <Header
+            loggedIn={loggedIn}
+            isEmail={isEmail}
+            isBurger={isBurger}
+            handleBurgerMenu={handleBurgerMenu}
+            signOut={signOut}
+          />
 
           <Routes>
             <Route

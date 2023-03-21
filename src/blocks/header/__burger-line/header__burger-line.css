@@ -1,0 +1,20 @@
+.header__burger-line {
+  display: block;
+  width: 100%;
+  background-color: #fff;
+  height: 3px;
+  position: absolute;
+  transition: 0.5s;
+}
+
+.header__burger-line:first-of-type {
+  top: 0;
+}
+
+.header__burger-line:nth-of-type(2) {
+  top: 9px;
+}
+
+.header__burger-line:last-of-type {
+  top: 18px;
+}
