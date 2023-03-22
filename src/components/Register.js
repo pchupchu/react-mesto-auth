@@ -1,25 +1,12 @@
-import React, { useState } from "react";
 import { Link } from "react-router-dom";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function Register({ handleSuccessReg }) {
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
-
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  };
+  const { values, handleChange, errors, isValid } = useFormAndValidation();
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    const { password, email } = formValue;
-    handleSuccessReg(email, password);
+    handleSuccessReg(values.email, values.password);
   };
 
   return (
@@ -33,11 +20,17 @@ function Register({ handleSuccessReg }) {
             id="email"
             name="email"
             placeholder="Email"
-            value={formValue.email}
+            value={values.email || ""}
             onChange={handleChange}
             required
           />
-          <span className="form__item-error email-error"></span>
+          <span
+            className={`form__item-error ${
+              isValid ? "" : "form__item-error_active"
+            }`}
+          >
+            {errors.email}
+          </span>
         </label>
         <label className="form__label">
           <input
@@ -46,11 +39,19 @@ function Register({ handleSuccessReg }) {
             id="password"
             name="password"
             placeholder="Пароль"
-            value={formValue.password}
+            minLength="6"
+            maxLength="30"
+            value={values.password || ""}
             onChange={handleChange}
             required
           />
-          <span className="form__item-error password-error"></span>
+          <span
+            className={`form__item-error ${
+              isValid ? "" : "form__item-error_active"
+            }`}
+          >
+            {errors.password}
+          </span>
         </label>
         <button type="submit" className="form__button login__button">
           Зарегистрироваться

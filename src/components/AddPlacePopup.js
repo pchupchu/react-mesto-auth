@@ -1,31 +1,23 @@
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 import PopupWithForm from "./PopupWithForm";
 
 function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
-  const [placeName, setPlaceName] = useState("");
-  const [placeUrl, setPlaceUrl] = useState("");
-
-  function handleChangePlaceName(evt) {
-    setPlaceName(evt.target.value);
-  }
-
-  function handleChangePlaceUrl(evt) {
-    setPlaceUrl(evt.target.value);
-  }
+  const { values, handleChange, errors, isValid, resetForm } =
+    useFormAndValidation();
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onAddPlace({
-      name: placeName,
-      link: placeUrl,
+      name: values.imagename,
+      link: values.imageurl,
     });
   }
 
   useEffect(() => {
     if (isOpen) {
-      setPlaceName("");
-      setPlaceUrl("");
+      resetForm();
     }
   }, [isOpen]);
 
@@ -38,6 +30,7 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValid={isValid}
     >
       <label className="form__label">
         <input
@@ -49,10 +42,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           minLength="2"
           maxLength="30"
           required
-          value={placeName}
-          onChange={handleChangePlaceName}
+          value={values.imagename || ""}
+          onChange={handleChange}
         />
-        <span className="form__item-error imagename-error"></span>
+        <span
+          className={`form__item-error ${
+            isValid ? "" : "form__item-error_active"
+          }`}
+        >
+          {errors.imagename}
+        </span>
       </label>
       <label className="form__label">
         <input
@@ -62,10 +61,16 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
           name="imageurl"
           placeholder="Ссылка на картинку"
           required
-          value={placeUrl}
-          onChange={handleChangePlaceUrl}
+          value={values.imageurl || ""}
+          onChange={handleChange}
         />
-        <span className="form__item-error imageurl-error"></span>
+        <span
+          className={`form__item-error ${
+            isValid ? "" : "form__item-error_active"
+          }`}
+        >
+          {errors.imageurl}
+        </span>
       </label>
     </PopupWithForm>
   );

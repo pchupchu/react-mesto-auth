@@ -10,7 +10,7 @@
   left: 0;
   width: max-content;
   max-width: 358px;
-  margin-top: 5px;
+  margin-top: 1px;
 }
 
 @media screen and (max-width: 576px) {

@@ -1,27 +1,17 @@
-import React, { useState } from "react";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 
 function Login({ handleLogin }) {
-  const [formValue, setFormValue] = useState({
-    email: "",
-    password: "",
-  });
+  const { values, handleChange, errors, resetForm, isValid } =
+    useFormAndValidation();
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-
-    setFormValue({
-      ...formValue,
-      [name]: value,
-    });
-  };
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!formValue.email || !formValue.password) {
+    if (!values.email || !values.password) {
       return;
     }
 
-    setFormValue({ email: "", password: "" });
-    handleLogin(formValue.email, formValue.password);
+    resetForm();
+    handleLogin(values.email, values.password);
   };
 
   return (
@@ -35,11 +25,17 @@ function Login({ handleLogin }) {
             id="email"
             name="email"
             placeholder="Email"
-            value={formValue.email}
+            value={values.email || ""}
             onChange={handleChange}
             required
           />
-          <span className="form__item-error email-error"></span>
+          <span
+            className={`form__item-error ${
+              isValid ? "" : "form__item-error_active"
+            }`}
+          >
+            {errors.email}
+          </span>
         </label>
         <label className="form__label">
           <input
@@ -48,11 +44,19 @@ function Login({ handleLogin }) {
             id="password"
             name="password"
             placeholder="Пароль"
-            value={formValue.password}
+            minLength="6"
+            maxLength="30"
+            value={values.password || ""}
             onChange={handleChange}
             required
           />
-          <span className="form__item-error password-error"></span>
+          <span
+            className={`form__item-error ${
+              isValid ? "" : "form__item-error_active"
+            }`}
+          >
+            {errors.password}
+          </span>
         </label>
         <button type="submit" className="form__button login__button">
           Войти

@@ -18,6 +18,7 @@ function ConfirmationPopup({ isOpen, onClose, onCardDelete, removedCard }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValid={true}
     />
   );
 }

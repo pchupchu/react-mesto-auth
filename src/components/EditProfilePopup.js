@@ -1,34 +1,37 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect } from "react";
 import { CurrentUserContext } from "../contexts/CurrentUserContext";
+import { useFormAndValidation } from "../hooks/useFormAndValidation";
 import PopupWithForm from "./PopupWithForm";
 
 function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
-  const [name, setName] = useState("");
-  const [description, setDescription] = useState("");
-
-  function handleChangeName(evt) {
-    setName(evt.target.value);
-  }
-
-  function handleChangeDescription(evt) {
-    setDescription(evt.target.value);
-  }
-
   const user = useContext(CurrentUserContext);
+
+  const {
+    values,
+    setValues,
+    handleChange,
+    errors,
+    resetForm,
+    isValid,
+    setIsValid,
+  } = useFormAndValidation();
 
   useEffect(() => {
     if (user.name) {
-      setName(user.name);
-      setDescription(user.about);
+      setValues(user);
     }
-  }, [user, isOpen]);
+    if (!isOpen) {
+      resetForm();
+      setIsValid(true);
+    }
+  }, [user, setValues, isOpen, resetForm, setIsValid]);
 
   function handleSubmit(e) {
     e.preventDefault();
 
     onUpdateUser({
-      name,
-      about: description,
+      name: values.name,
+      about: values.about,
     });
   }
 
@@ -41,6 +44,7 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
+      isValid={isValid}
     >
       <label className="form__label">
         <input
@@ -52,10 +56,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           minLength="2"
           maxLength="40"
           required
-          value={name}
-          onChange={handleChangeName}
+          value={values.name || ""}
+          onChange={handleChange}
         />
-        <span className="form__item-error name-error"></span>
+        <span
+          className={`form__item-error ${
+            isValid ? "" : "form__item-error_active"
+          }`}
+        >
+          {errors.name}
+        </span>
       </label>
       <label className="form__label">
         <input
@@ -67,10 +77,16 @@ function EditProfilePopup({ isOpen, onClose, onUpdateUser }) {
           minLength="2"
           maxLength="200"
           required
-          value={description}
-          onChange={handleChangeDescription}
+          value={values.about || ""}
+          onChange={handleChange}
         />
-        <span className="form__item-error about-error"></span>
+        <span
+          className={`form__item-error ${
+            isValid ? "" : "form__item-error_active"
+          }`}
+        >
+          {errors.about}
+        </span>
       </label>
     </PopupWithForm>
   );
