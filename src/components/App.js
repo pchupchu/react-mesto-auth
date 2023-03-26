@@ -30,6 +30,7 @@ function App() {
   const [loggedIn, setLoggedIn] = useState(false);
   const [isEmail, setIsEmail] = useState("");
   const [isSuccessReg, setIsSuccessReg] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
     api
@@ -54,6 +55,7 @@ function App() {
   }, []);
 
   function handleUpdateUser(user) {
+    setIsLoading(true);
     api
       .setProfileInfo(user)
       .then((res) => {
@@ -62,10 +64,12 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleUpdateAvatar(obj) {
+    setIsLoading(true);
     api
       .setProfileAvatar(obj.avatar)
       .then((res) => {
@@ -74,10 +78,12 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleAddPlaceSubmit(card) {
+    setIsLoading(true);
     api
       .setNewCard(card)
       .then((res) => {
@@ -86,7 +92,8 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleCardLike(card) {
@@ -105,6 +112,7 @@ function App() {
   }
 
   function handleCardDelete(card) {
+    setIsLoading(true);
     api
       .deleteCard(card._id)
       .then(() => {
@@ -113,7 +121,8 @@ function App() {
       })
       .catch((err) => {
         console.log(`Ошибка: ${err}`);
-      });
+      })
+      .finally(() => setIsLoading(false));
   }
 
   function handleEditProfileClick() {
@@ -152,7 +161,6 @@ function App() {
     auth
       .authorize(email, password)
       .then((data) => {
-        console.log(data);
         if (data.token) {
           setLoggedIn(true);
           navigate("/", { replace: true });
@@ -165,7 +173,6 @@ function App() {
     auth
       .register(password, email)
       .then((res) => {
-        console.log(res);
         if (res) {
           setIsSuccessReg(true);
           navigate("/sign-in", { replace: true });
@@ -285,18 +292,21 @@ function App() {
             isOpen={isEditProfilePopupOpen}
             onClose={closeAllPopups}
             onUpdateUser={handleUpdateUser}
+            isLoading={isLoading}
           />
 
           <EditAvatarPopup
             isOpen={isEditAvatarPopupOpen}
             onClose={closeAllPopups}
             onUpdateAvatar={handleUpdateAvatar}
+            isLoading={isLoading}
           />
 
           <AddPlacePopup
             isOpen={isAddPlacePopupOpen}
             onClose={closeAllPopups}
             onAddPlace={handleAddPlaceSubmit}
+            isLoading={isLoading}
           />
 
           <ConfirmationPopup
@@ -304,6 +314,7 @@ function App() {
             onClose={closeAllPopups}
             onCardDelete={handleCardDelete}
             removedCard={removedCard}
+            isLoading={isLoading}
           />
 
           <ImagePopup card={selectedCard} onClose={closeAllPopups} />

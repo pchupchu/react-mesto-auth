@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useFormAndValidation } from "../hooks/useFormAndValidation";
 import PopupWithForm from "./PopupWithForm";
 
-function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
+function AddPlacePopup({ isOpen, onClose, onAddPlace, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
@@ -19,18 +19,20 @@ function AddPlacePopup({ isOpen, onClose, onAddPlace }) {
     if (isOpen) {
       resetForm();
     }
-  }, [isOpen]);
+  }, [isOpen, resetForm]);
 
   return (
     <PopupWithForm
       title="Новое место"
       name="add-image"
       btnText="Создать"
+      loaderText="Сохранение..."
       form="card"
       isOpen={isOpen}
       onClose={onClose}
       onSubmit={handleSubmit}
       isValid={isValid}
+      isLoading={isLoading}
     >
       <label className="form__label">
         <input

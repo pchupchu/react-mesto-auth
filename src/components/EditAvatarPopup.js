@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useFormAndValidation } from "../hooks/useFormAndValidation";
 import PopupWithForm from "./PopupWithForm";
 
-function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
+function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar, isLoading }) {
   const { values, handleChange, errors, isValid, resetForm } =
     useFormAndValidation();
 
@@ -25,6 +25,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       title="Обновить аватар"
       name="add-avatar"
       btnText="Сохранить"
+      loaderText="Сохранение..."
       container="popup__avatar-container"
       classTitle="avatar-title"
       form="avatar"
@@ -32,6 +33,7 @@ function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar }) {
       onClose={onClose}
       onSubmit={handleSubmit}
       isValid={isValid}
+      isLoading={isLoading}
     >
       <label className="form__label">
         <input

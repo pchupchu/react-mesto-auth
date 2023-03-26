@@ -20,7 +20,7 @@ function PopupWithForm({ isOpen, name, container, onClose, ...props }) {
             props.isValid ? "" : "form__button_inactive"
           }`}
         >
-          {props.btnText}
+          {props.isLoading ? props.loaderText : props.btnText}
         </button>
       </form>
     </Popup>
