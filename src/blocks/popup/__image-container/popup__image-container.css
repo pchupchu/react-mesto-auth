@@ -1,4 +1,12 @@
 .popup__image-container {
   position: relative;
   background-color: transparent;
+  width: auto;
+  max-width: 100%;
+}
+
+@media screen and (max-width: 576px) {
+  .popup__image-container {
+    max-width: 100%;
+  }
 }
